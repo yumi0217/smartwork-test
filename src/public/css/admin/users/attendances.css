@@ -1,0 +1,161 @@
+/* タイトル外コンテナ：テーブルと揃えるため max-width を一致させる */
+.page-title-container {
+    max-width: 740px;
+    margin: 60px auto 20px;
+}
+
+.page-title {
+    display: flex;
+    align-items: center;
+}
+
+.title-bar {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+    margin-right: 12px;
+}
+
+.title-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* 月表示 */
+.month-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    max-width: 740px;
+    margin: 20px auto;
+}
+
+.month-nav-left,
+.month-nav-right {
+    font-weight: bold;
+}
+
+.month-form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.calendar-icon {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.month-form input[type="month"] {
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    color: #333;
+}
+
+.month-nav {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.month-display {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* テーブル周り */
+.attendance-container {
+    max-width: 740px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+/* ▼ 詳細リンクのスタイル（薄い→濃い） */
+/* ▼ 詳細リンクと前月・翌月リンク共通スタイル */
+.attendance-table a,
+.month-selector a {
+    color: #ccc;
+    /* 初期状態は薄いグレー */
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: bold;
+}
+
+.attendance-table a:hover,
+.month-selector a:hover {
+    color: #000;
+    /* ホバー時に黒 */
+}
+
+.export-button-wrapper {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.export-button {
+    background-color: #000;
+    color: #fff;
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.export-button:hover {
+    background-color: #333;
+}
+
+.csv-button-fixed {
+    max-width: 740px;
+    margin: 20px auto 60px;
+    text-align: right;
+}
+
+.csv-button-fixed .export-button {
+    background-color: #000;
+    color: #fff;
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.csv-button-fixed .export-button:hover {
+    background-color: #333;
+}

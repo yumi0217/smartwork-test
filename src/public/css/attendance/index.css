@@ -1,0 +1,192 @@
+/* コンテナ */
+.attendance-container {
+    max-width: 900px;
+    margin: 60px auto;
+    background: #f4f4f4;
+    padding: 40px;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #333;
+}
+
+/* タイトル */
+.page-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title-bar {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+    margin-right: 12px;
+}
+
+.title-text {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* 月切り替えナビゲーションの全体囲い */
+.calendar-controls {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+}
+
+/* 月ナビゲーションform内の横並び */
+.month-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    /* max-width を削除または広げる */
+    /* max-width: none; ←これでもOK */
+}
+
+/* 月のテキストとアイコンの中央寄せ */
+.current-month-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* アイコンのサイズ調整 */
+.calendar-icon {
+    width: 18px;
+}
+
+/* 月ボタン（前月・翌月） */
+.month-button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #888;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.month-button:hover {
+    color: #333;
+}
+
+/* 左と右の余白調整 */
+.month-button.left {
+    margin-right: auto;
+}
+
+.month-button.right {
+    margin-left: auto;
+}
+
+/* 月選択バー */
+.date-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* 月変更ボタン（前月・翌月） */
+.date-nav {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.date-nav:hover {
+    color: #000;
+}
+
+/* カレンダー表示部 */
+.current-month {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+    gap: 6px;
+}
+
+.calendar-icon {
+    width: 20px;
+}
+
+/* テーブル */
+.attendance-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table thead {
+    background-color: #fafafa;
+    font-weight: bold;
+}
+
+.attendance-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 詳細リンクの装飾 */
+/* 詳細リンクの装飾（グレー → ホバーで黒） */
+.attendance-table a {
+    all: unset;
+    color: #888;
+    /* 初期は薄いグレー */
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.attendance-table a:hover {
+    color: #000;
+    /* ホバー時は黒 */
+    text-decoration: underline;
+}
+
+/* 月選択 input の枠線を消す */
+input[type="month"] {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    outline: none;
+    /* フォーカス時の枠も消す */
+    appearance: none;
+    /* Firefox対応 */
+    -webkit-appearance: none;
+    /* Safari/Chrome対応 */
+}

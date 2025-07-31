@@ -1,0 +1,73 @@
+/* スタッフ一覧コンテナ */
+.staff-container {
+    max-width: 740px;
+    margin: 60px auto;
+    background: #f4f4f4;
+    padding: 40px;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #333;
+}
+
+/* タイトル */
+.page-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title-bar {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+    margin-right: 12px;
+}
+
+.title-text {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* テーブル全体 */
+.staff-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* テーブル内のセル */
+.staff-table th,
+.staff-table td {
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+/* ヘッダー */
+.staff-table thead {
+    background-color: #fafafa;
+    font-weight: bold;
+}
+
+/* 最後の行の下線を消す */
+.staff-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 詳細リンク（文字だけ） */
+.staff-table a {
+    all: unset;
+    color: #E1E1E1;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.staff-table a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}

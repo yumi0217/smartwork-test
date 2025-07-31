@@ -1,0 +1,100 @@
+/* 背景・全体設定 */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    /* ←スクロール無効 */
+    background-color: #f4f4f4;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #000;
+}
+
+/* 中央寄せラッパー */
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* カード本体 */
+.container {
+    width: 600px;
+    background-color: #fff;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+/* ステータスバッジ */
+.status-badge {
+    background-color: #ccc;
+    color: #333;
+    padding: 6px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+/* 日付 */
+.date {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 時刻 */
+.time {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* 出勤ボタン */
+button[type="submit"] {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+/* ボタン共通 */
+.attendance-button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 120px;
+}
+
+/* 黒ボタン */
+.attendance-button.black {
+    background-color: #000;
+    color: #fff;
+}
+
+/* 白ボタン */
+.attendance-button.white {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+/* ボタン横並び */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}

@@ -1,0 +1,55 @@
+/* 全体背景と中央寄せ */
+body {
+    background-color: #f5f5f5;
+    margin: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #000;
+}
+
+/* コンテナ */
+.verify-container {
+    max-width: 700px;
+    background-color: #fff;
+    margin: 80px auto;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* メッセージ */
+.main-message {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 2;
+    margin-bottom: 40px;
+}
+
+/* 認証ボタン */
+.verify-button {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+/* 認証ボタンホバー */
+.verify-button:hover {
+    opacity: 0.9;
+}
+
+/* 再送リンク */
+.resend-link {
+    display: block;
+    font-size: 14px;
+    color: #007bff;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+.resend-link:hover {
+    text-decoration: underline;
+}

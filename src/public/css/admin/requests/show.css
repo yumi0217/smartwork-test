@@ -1,0 +1,77 @@
+.detail-container {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.page-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 24px;
+    background-color: #000;
+    margin-right: 10px;
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail-table th {
+    background-color: #f0f0f0;
+    width: 30%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+/* 承認ボタン共通 */
+.approve-btn {
+    padding: 12px 30px;
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.approve-btn:hover {
+    background-color: #333;
+}
+
+/* 承認済みラベルも右寄せ */
+.approved-label {
+    padding: 12px 30px;
+    background-color: #666;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+}

@@ -1,0 +1,101 @@
+/* 背景全体 */
+body {
+    background-color: #f5f5f5;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+/* 中央フォーム配置 */
+.register-container {
+    width: 100%;
+    max-width: 700px;
+    /* ← container最大幅 */
+    margin: 80px auto;
+    padding: 40px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* タイトル */
+.form-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* フォーム項目全体 */
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+/* ラベル */
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* インプット */
+.form-group input {
+    width: 100%;
+    /* ← 親要素に合わせる */
+    max-width: 680px;
+    /* ← 最大幅を指定 */
+    height: 45px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto;
+    /* ← 中央寄せ */
+}
+
+/* ボタン */
+.submit-button {
+    width: 100%;
+    /* ← 同上 */
+    max-width: 680px;
+    height: 60px;
+    background-color: #000;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ボタンホバー */
+.submit-button:hover {
+    opacity: 0.9;
+}
+
+/* ログインリンク */
+.login-link {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}

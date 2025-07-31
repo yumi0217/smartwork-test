@@ -1,0 +1,139 @@
+/* コンテナ */
+.attendance-container {
+    max-width: 900px;
+    margin: 60px auto;
+    background: #f4f4f4;
+    padding: 40px;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #333;
+}
+
+/* タイトル */
+.page-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title-bar {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+    margin-right: 12px;
+}
+
+.title-text {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* 日付選択バー */
+.date-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* 日付変更ボタン（前日・翌日） */
+.date-nav {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.date-nav:hover {
+    color: #000;
+}
+
+/* カレンダー入力（中央） */
+.date-form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.date-form input[type="date"] {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+
+
+/* テーブル */
+.attendance-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table thead {
+    background-color: #fafafa;
+    font-weight: bold;
+}
+
+.attendance-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 詳細リンクの囲いを完全に削除して、テキストリンクにする */
+.attendance-table a {
+    all: unset;
+    /* ← これで初期スタイルをすべてリセット */
+    color: #E1E1E1;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.attendance-table a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* ▼ 前日・翌日リンク（共通化） */
+.date-nav {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #ccc;
+    /* ← 初期は薄いグレー */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.date-nav:hover {
+    color: #000;
+    /* ← ホバー時に黒 */
+    text-decoration: underline;
+}

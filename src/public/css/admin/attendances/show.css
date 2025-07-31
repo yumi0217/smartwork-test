@@ -1,0 +1,141 @@
+/* タイトルブロック（コンテナ外で左寄せ） */
+.page-title {
+    display: flex;
+    align-items: center;
+    margin: 0 auto 20px;
+    /* コンテナと同様に中央寄せ */
+    max-width: 700px;
+    /* コンテナ幅と揃える */
+    padding-left: 0;
+}
+
+/* 黒い縦線 */
+.title-bar {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+    margin-right: 10px;
+}
+
+/* タイトル文字 */
+.title-text {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* コンテナ中央寄せ */
+.attendance-detail-container {
+    max-width: 700px;
+    margin: 0 auto 60px;
+    padding: 40px;
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+/* テーブル3列構成 */
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.detail-table tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.detail-table th {
+    width: 25%;
+    background-color: #f8f8f8;
+    padding: 16px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.detail-table td {
+    width: 37.5%;
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* 入力風見せたいなら */
+.detail-table input,
+.detail-table textarea {
+    width: 100px;
+    padding: 6px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 備考だけ幅広テキストエリア */
+.detail-table .textarea-cell {
+    text-align: center;
+    /* ← 中央寄せにする */
+}
+
+
+
+.detail-table textarea {
+    width: 60%;
+    max-width: 600px;
+    height: 100px;
+    display: inline-block;
+    /* 中央揃えに必要 */
+    resize: vertical;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* ボタン */
+.button-area {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.update-button {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-button:hover {
+    background-color: #444;
+}
+
+.detail-table .date-split {
+    display: flex;
+    justify-content: center;
+    /* ← これが要！中央寄せ */
+    align-items: center;
+    gap: 95px;
+    width: 100%;
+    text-align: center;
+    padding: 16px 0;
+}
+
+/* 年と日付ラベル */
+.detail-table .date-split .year,
+.detail-table .date-split .day {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}

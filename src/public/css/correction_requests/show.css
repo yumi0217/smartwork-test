@@ -1,0 +1,144 @@
+/* 全体レイアウト */
+.attendance-detail-container {
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #333;
+    padding-top: 20px;
+}
+
+/* タイトル：左寄せに変更 */
+.page-title {
+    max-width: 700px;
+    margin: 0 auto 24px auto;
+    /* 上左右中央・下24px */
+    display: flex;
+    align-items: center;
+}
+
+/* その他のスタイルはそのままでOK */
+.title-bar {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+    margin-right: 12px;
+}
+
+.title-text {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* テーブル */
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    table-layout: fixed;
+    background-color: #fff;
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+.detail-table th {
+    width: 25%;
+    text-align: left;
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+/* ===== 時刻セル（中央寄せ） ===== */
+.time-cell {
+    text-align: center;
+}
+
+.time-cell input[type="time"] {
+    width: 100px;
+    padding: 6px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* ===== 備考欄（中央寄せ） ===== */
+.textarea-cell {
+    display: flex;
+    justify-content: center;
+}
+
+.textarea-cell textarea {
+    width: 50%;
+    max-width: 600px;
+    height: 100px;
+    resize: vertical;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* ボタンエリア */
+.button-area {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.update-button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.update-button:hover {
+    background-color: #333;
+}
+
+/* エラー表示 */
+.fix-error {
+    text-align: center;
+    color: #f55;
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+.center-cell {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.date-split {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    text-align: center;
+}
+
+.date-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.center-cell {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}

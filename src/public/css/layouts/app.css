@@ -1,0 +1,83 @@
+/* 全体の box-sizing を border-box にする */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* 共通レイアウト設定 */
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* ヘッダー */
+.user-header {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.user-header-inner {
+    width: 100%;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ロゴエリア */
+.logo-area .logo {
+    height: 32px;
+}
+
+/* ナビゲーション全体を右寄せ */
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-form {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.nav-menu a:hover {
+    opacity: 0.7;
+}
+
+/* ログアウトボタン */
+.logout-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+}
+
+.logout-btn:hover {
+    opacity: 0.7;
+}
+
+/* メイン */
+main {
+    padding: 40px 20px;
+}
