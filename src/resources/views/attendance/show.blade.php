@@ -56,69 +56,54 @@
             </tr>
 
             <tr>
-                <th>休憩</th>
+                <th>休憩1</th>
                 <td class="time-cell">
                     @php
-                    $break1start = $customBreaks[0]['start'] ?? null;
-                    $break1end = $customBreaks[0]['end'] ?? null;
+                    // nullでない時のみ H:i に整形（休憩1は index 0）
+                    $break1startFormatted = !empty($customBreaks[0]['start']) ? \Carbon\Carbon::parse($customBreaks[0]['start'])->format('H:i') : '';
+                    $break1endFormatted = !empty($customBreaks[0]['end']) ? \Carbon\Carbon::parse($customBreaks[0]['end'])->format('H:i') : '';
                     @endphp
 
+                    <input type="time" name="requested_break1_start"
+                        value="{{ old('requested_break1_start', $break1startFormatted) }}">
+                    〜
+                    <input type="time" name="requested_break1_end"
+                        value="{{ old('requested_break1_end', $break1endFormatted) }}">
 
-                    @if($isEditable)
-                    <input type="time" name="requested_break_start"
-                        value="{{ old('requested_break_start', $break1start) }}">
-                    ～
-                    <input type="time" name="requested_break_end"
-                        value="{{ old('requested_break_end', $break1end) }}">
-                    @error('requested_break_start')
+                    @error('requested_break1_start')
                     <p class="text-red">{{ $message }}</p>
                     @enderror
-                    @error('requested_break_end')
+                    @error('requested_break1_end')
                     <p class="text-red">{{ $message }}</p>
                     @enderror
-                    @else
-                    @if (!is_null($break1start) && !is_null($break1end))
-
-                    {{ \Carbon\Carbon::parse($break1start)->format('H:i') }}
-                    ～ {{ \Carbon\Carbon::parse($break1end)->format('H:i') }}
-                    @else
-                    -
-                    @endif
-                    @endif
                 </td>
             </tr>
+
 
             <tr>
                 <th>休憩2</th>
                 <td class="time-cell">
                     @php
-                    $break2start = $customBreaks[1]['start'] ?? null;
-                    $break2end = $customBreaks[1]['end'] ?? null;
+                    // nullでない時のみ H:i に整形
+                    $break2startFormatted = !empty($customBreaks[1]['start']) ? \Carbon\Carbon::parse($customBreaks[1]['start'])->format('H:i') : '';
+                    $break2endFormatted = !empty($customBreaks[1]['end']) ? \Carbon\Carbon::parse($customBreaks[1]['end'])->format('H:i') : '';
                     @endphp
 
-                    @if($isEditable)
                     <input type="time" name="requested_break2_start"
-                        value="{{ old('requested_break2_start', $break2start) }}">
-                    ～
+                        value="{{ old('requested_break2_start', $break2startFormatted) }}">
+                    〜
                     <input type="time" name="requested_break2_end"
-                        value="{{ old('requested_break2_end', $break2end) }}">
+                        value="{{ old('requested_break2_end', $break2endFormatted) }}">
+
                     @error('requested_break2_start')
                     <p class="text-red">{{ $message }}</p>
                     @enderror
                     @error('requested_break2_end')
                     <p class="text-red">{{ $message }}</p>
                     @enderror
-                    @else
-                    @if (!is_null($break2start) && !is_null($break2end))
-
-                    {{ \Carbon\Carbon::parse($break2start)->format('H:i') }}
-                    ～ {{ \Carbon\Carbon::parse($break2end)->format('H:i') }}
-                    @else
-                    -
-                    @endif
-                    @endif
                 </td>
             </tr>
+
 
             <tr>
                 <th>備考</th>

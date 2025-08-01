@@ -105,6 +105,9 @@ Route::prefix('admin')->group(function () {
     });
     // ログアウトはログイン中しか使わないため auth:admin を付けてもOK
     Route::post('/logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
+    Route::get('/auto-login-redirect', function () {
+        return redirect()->route('auth.login');
+    })->name('login');
 });
 
 // 勤怠一覧画面

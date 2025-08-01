@@ -17,8 +17,8 @@ class CorrectionRequestRequest extends FormRequest
         return [
             'requested_start_time' => ['required', 'date_format:H:i'],
             'requested_end_time' => ['required', 'date_format:H:i'],
-            'requested_break_start' => ['required', 'date_format:H:i'],
-            'requested_break_end' => ['required', 'date_format:H:i'],
+            'requested_break1_start' => ['required', 'date_format:H:i'],
+            'requested_break1_end' => ['required', 'date_format:H:i'],
             'requested_break2_start' => ['nullable', 'date_format:H:i'],
             'requested_break2_end' => ['nullable', 'date_format:H:i'],
             'requested_note' => ['required', 'string', 'max:255'],
@@ -35,10 +35,10 @@ class CorrectionRequestRequest extends FormRequest
             'requested_end_time.date_format' => '退勤時間の形式が正しくありません（例：18:00）',
 
             // 休憩1
-            'requested_break_start.required' => '休憩1の開始時間を入力してください',
-            'requested_break_end.required' => '休憩1の終了時間を入力してください',
-            'requested_break_start.date_format' => '休憩1の開始時間の形式が正しくありません（例：12:00）',
-            'requested_break_end.date_format' => '休憩1の終了時間の形式が正しくありません（例：13:00）',
+            'requested_break1_start.required' => '休憩1の開始時間を入力してください',
+            'requested_break1_end.required' => '休憩1の終了時間を入力してください',
+            'requested_break1_start.date_format' => '休憩1の開始時間の形式が正しくありません（例：12:00）',
+            'requested_break1_end.date_format' => '休憩1の終了時間の形式が正しくありません（例：13:00）',
 
             // 休憩2
             'requested_break2_start.date_format' => '休憩2の開始時間の形式が正しくありません（例：15:00）',

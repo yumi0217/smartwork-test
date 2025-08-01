@@ -146,7 +146,7 @@ class UserAttendanceController extends Controller
                 $attendance->note = $approved->requested_note;
 
                 $breaks = collect([
-                    ['start' => $approved->requested_break_start, 'end' => $approved->requested_break_end],
+                    ['start' => $approved->requested_break1_start, 'end' => $approved->requested_break1_end],
                     ['start' => $approved->requested_break2_start, 'end' => $approved->requested_break2_end],
                 ]);
             } else {
@@ -175,7 +175,6 @@ class UserAttendanceController extends Controller
         if (!$attendance) {
             return redirect()->route('attendance.index')->with('error', '勤怠データが見つかりません');
         }
-        dd($attendance->breaks);
 
         $attendanceDate = Carbon::parse($attendance->date)->format('Y-m-d');
 
@@ -191,7 +190,7 @@ class UserAttendanceController extends Controller
             $attendance->note = $correctionRequest->requested_note;
 
             $attendance->breaks_display = [
-                ['start' => $correctionRequest->requested_break_start, 'end' => $correctionRequest->requested_break_end],
+                ['start' => $correctionRequest->requested_break1_start, 'end' => $correctionRequest->requested_break1_end],
                 ['start' => $correctionRequest->requested_break2_start, 'end' => $correctionRequest->requested_break2_end],
             ];
 
@@ -214,8 +213,8 @@ class UserAttendanceController extends Controller
         }
 
         $attendance->breaks_display = $breaks->map(fn($b) => [
-            'start' => $b->break_start,
-            'end' => $b->break_end,
+            'start' => optional($b->break_start)->format('H:i'),
+            'end'   => optional($b->break_end)->format('H:i'),
         ])->values()->toArray();
 
         return view('attendance.show', [

@@ -58,6 +58,7 @@
             @php
             $attendance = $user->attendanceForDate;
 
+
             $start = isset($attendance->start_time) ? \Carbon\Carbon::parse($attendance->start_time) : null;
             $end = isset($attendance->end_time) ? \Carbon\Carbon::parse($attendance->end_time) : null;
 

@@ -43,15 +43,16 @@ $breaks = isset($customBreaks)
         <tr>
             <th>休憩1</th>
             <td class="time-cell">
-
-                @if(isset($breaks[0]['start'], $breaks[0]['end']) && $breaks[0]['start'] && $breaks[0]['end'])
-                {{ \Carbon\Carbon::parse($breaks[0]['start'])->format('H:i') }}
-                ～ {{ \Carbon\Carbon::parse($breaks[0]['end'])->format('H:i') }}
+                @if($breaks[0]['start'] || $breaks[0]['end'])
+                {{ $breaks[0]['start'] ? \Carbon\Carbon::parse($breaks[0]['start'])->format('H:i') : '-' }}
+                ～
+                {{ $breaks[0]['end'] ? \Carbon\Carbon::parse($breaks[0]['end'])->format('H:i') : '-' }}
                 @else
                 -
                 @endif
             </td>
         </tr>
+
 
         <tr>
             <th>休憩2</th>

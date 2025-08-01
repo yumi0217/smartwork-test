@@ -63,7 +63,6 @@
             $start = $attendance?->start_time ? \Carbon\Carbon::parse($attendance->start_time) : null;
             $end = $attendance?->end_time ? \Carbon\Carbon::parse($attendance->end_time) : null;
 
-            // ★ breaks_display → customBreaks に統一
             $breakSeconds = 0;
             $hasValidBreak = false;
 
@@ -91,15 +90,15 @@
                 <td>{{ $workSeconds ? formatDuration($workSeconds) : '' }}</td>
                 <td>
                     @php
-                    $hasPending = $attendance
+                    $correction = $attendance
                     ? \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
                     ->where('status', 'pending')
-                    ->exists()
-                    : false;
+                    ->first()
+                    : null;
                     @endphp
 
-                    @if ($hasPending)
-                    <a href="{{ route('correction_requests.show', ['id' => $attendance->id]) }}">詳細</a>
+                    @if ($correction)
+                    <a href="{{ route('correction_requests.show', ['id' => $correction->id]) }}">詳細</a>
                     @elseif ($attendance)
                     <a href="{{ route('attendance.show', $attendance->id) }}">詳細</a>
                     @else
@@ -109,8 +108,6 @@
             </tr>
             @endforeach
         </tbody>
-
-
     </table>
 </div>
 @endsection

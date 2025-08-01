@@ -35,7 +35,7 @@ class AdminUserAttendanceController extends Controller
             $record = $rawAttendances->firstWhere('date', $date);
 
             if ($record) {
-                // 承認済みの修正申請があるか確認
+                // 🔽 まず $approved を定義する
                 $approved = CorrectionRequest::where('attendance_id', $record->id)
                     ->where('status', 'approved')
                     ->latest()
@@ -45,11 +45,36 @@ class AdminUserAttendanceController extends Controller
                     $record->start_time = $approved->requested_start_time;
                     $record->end_time = $approved->requested_end_time;
                     $record->note = $approved->requested_note;
+
+                    $breaks = [];
+
+                    if ($approved->requested_break_start && $approved->requested_break_end) {
+                        $breaks[] = [
+                            'start' => Carbon::parse($approved->requested_break_start),
+                            'end' => Carbon::parse($approved->requested_break_end),
+                        ];
+                    }
+
+                    if ($approved->requested_break2_start && $approved->requested_break2_end) {
+                        $breaks[] = [
+                            'start' => Carbon::parse($approved->requested_break2_start),
+                            'end' => Carbon::parse($approved->requested_break2_end),
+                        ];
+                    }
+
+                    $record->breaks_display = collect($breaks);
+                } else {
+                    $record->breaks_display = $record->breaks->map(function ($b) {
+                        return [
+                            'start' => $b->break_start,
+                            'end' => $b->break_end,
+                        ];
+                    });
                 }
 
                 $attendances[$date] = $record;
             } else {
-                // 空のダミーAttendanceオブジェクト（詳細リンク用に最低限のデータを入れる）
+                // ダミーデータ（休憩なし）
                 $attendances[$date] = new Attendance([
                     'id' => 0,
                     'user_id' => $user->id,
@@ -59,6 +84,7 @@ class AdminUserAttendanceController extends Controller
                 ]);
             }
         }
+
 
         return view('admin.users.attendances', compact('user', 'dates', 'attendances', 'yearMonth'));
     }
