@@ -190,8 +190,14 @@ class UserAttendanceController extends Controller
             $attendance->note = $correctionRequest->requested_note;
 
             $attendance->breaks_display = [
-                ['start' => $correctionRequest->requested_break1_start, 'end' => $correctionRequest->requested_break1_end],
-                ['start' => $correctionRequest->requested_break2_start, 'end' => $correctionRequest->requested_break2_end],
+                [
+                    'start' => optional($correctionRequest->requested_break1_start)->format('H:i'),
+                    'end'   => optional($correctionRequest->requested_break1_end)->format('H:i'),
+                ],
+                [
+                    'start' => optional($correctionRequest->requested_break2_start)->format('H:i'),
+                    'end'   => optional($correctionRequest->requested_break2_end)->format('H:i'),
+                ],
             ];
 
             return view('correction_requests.show', [

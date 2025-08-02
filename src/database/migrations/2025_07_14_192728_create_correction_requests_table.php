@@ -17,11 +17,11 @@ class CreateCorrectionRequestsTable extends Migration
             $table->time('requested_start_time')->nullable();
             $table->time('requested_end_time')->nullable();
 
-            // 休憩1
-            $table->time('requested_break_start')->nullable();
-            $table->time('requested_break_end')->nullable();
+            // 休憩1（★修正）
+            $table->time('requested_break1_start')->nullable();
+            $table->time('requested_break1_end')->nullable();
 
-            // 休憩2 ←追加
+            // 休憩2（★修正）
             $table->time('requested_break2_start')->nullable();
             $table->time('requested_break2_end')->nullable();
 

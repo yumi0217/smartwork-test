@@ -15,9 +15,9 @@ class CorrectionRequestSeeder extends Seeder
                 'user_id' => 2,
                 'requested_start_time' => '09:30:00',
                 'requested_end_time' => '18:00:00',
-                'requested_break_start' => '12:00:00',
-                'requested_break_end' => '13:00:00',
-                // 偶数番号のデータにだけ休憩2を追加
+                // ✅ 修正：break1
+                'requested_break1_start' => '12:00:00',
+                'requested_break1_end' => '13:00:00',
                 'requested_break2_start' => $i % 2 === 0 ? '15:30:00' : null,
                 'requested_break2_end'   => $i % 2 === 0 ? '15:45:00' : null,
                 'requested_note' => '今日は遅れて出勤しました。',

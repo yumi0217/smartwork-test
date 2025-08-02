@@ -14,7 +14,6 @@ class AttendanceController extends Controller
     {
         $date = $request->input('date') ?? now()->toDateString();
 
-        // 一般社員全員取得
         $users = User::where('is_admin', false)->get();
 
         foreach ($users as $user) {
@@ -35,15 +34,20 @@ class AttendanceController extends Controller
                 $attendance->note = $latestApproved->requested_note;
 
                 $attendance->breaks_display = collect([
-                    ['start' => $latestApproved->requested_break_start, 'end' => $latestApproved->requested_break_end],
-                    ['start' => $latestApproved->requested_break_start_2, 'end' => $latestApproved->requested_break_end_2],
+                    [
+                        'start' => $latestApproved->requested_break1_start,
+                        'end'   => $latestApproved->requested_break1_end,
+                    ],
+                    [
+                        'start' => $latestApproved->requested_break2_start,
+                        'end'   => $latestApproved->requested_break2_end,
+                    ],
                 ]);
             } else {
-                // 通常の休憩情報（最大2件まで）
                 $attendance->breaks_display = $attendance->breaks->take(2)->map(function ($break) {
                     return [
                         'start' => $break->break_start,
-                        'end' => $break->break_end,
+                        'end'   => $break->break_end,
                     ];
                 });
             }
@@ -57,15 +61,11 @@ class AttendanceController extends Controller
         ]);
     }
 
-
-
     public function show($id)
     {
-        // 土日などの場合、$id が存在しないケースに備えて
         $attendance = Attendance::with(['user', 'breaks'])->find($id);
 
         if (!$attendance) {
-            // URLで受け取れなかった場合 → リクエストパラメータから再構築
             $userId = request('user_id');
             $date = request('date');
 
@@ -80,21 +80,18 @@ class AttendanceController extends Controller
         return view('admin.attendances.show', compact('attendance'));
     }
 
-
-
     public function update(AdminCorrectionRequest $request, $id)
     {
         $validated = $request->validated();
         $attendance = Attendance::with('breaks')->findOrFail($id);
         $date = $attendance->date;
 
-        // 出退勤
         $attendance->start_time = $validated['start_time'] ? $date . ' ' . $validated['start_time'] : null;
         $attendance->end_time   = $validated['end_time'] ? $date . ' ' . $validated['end_time'] : null;
         $attendance->note       = $validated['note'] ?? null;
         $attendance->save();
 
-        // 休憩1：存在する場合は更新、なければ新規作成
+        // 休憩1
         if (isset($attendance->breaks[0])) {
             $attendance->breaks[0]->break_start = $validated['break1_start'] ? $date . ' ' . $validated['break1_start'] : null;
             $attendance->breaks[0]->break_end   = $validated['break1_end'] ? $date . ' ' . $validated['break1_end'] : null;
@@ -106,7 +103,7 @@ class AttendanceController extends Controller
             ]);
         }
 
-        // 休憩2：同様に処理
+        // 休憩2
         if (isset($attendance->breaks[1])) {
             $attendance->breaks[1]->break_start = $validated['break2_start'] ? $date . ' ' . $validated['break2_start'] : null;
             $attendance->breaks[1]->break_end   = $validated['break2_end'] ? $date . ' ' . $validated['break2_end'] : null;

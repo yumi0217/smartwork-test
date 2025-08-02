@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\CorrectionRequest;
 use Carbon\Carbon;
 
-
 class CorrectionRequestController extends Controller
 {
     /**
@@ -32,7 +31,19 @@ class CorrectionRequestController extends Controller
     {
         $request = CorrectionRequest::with(['user', 'attendance.breaks'])->findOrFail($id);
 
-        return view('admin.requests.show', compact('request'));
+        // 空でも2枠確保して渡す
+        $customBreaks = [
+            [
+                'start' => optional($request->requested_break1_start)->format('H:i'),
+                'end'   => optional($request->requested_break1_end)->format('H:i'),
+            ],
+            [
+                'start' => optional($request->requested_break2_start)->format('H:i'),
+                'end'   => optional($request->requested_break2_end)->format('H:i'),
+            ],
+        ];
+
+        return view('admin.requests.show', compact('request', 'customBreaks'));
     }
 
     /**
@@ -43,18 +54,16 @@ class CorrectionRequestController extends Controller
         $request = CorrectionRequest::findOrFail($id);
         $attendance = $request->attendance;
 
-        // 日付を元にフルの datetime に変換する（必要）
-        $date = $attendance->date; // 出勤日
-        $start = $request->requested_start_time ? Carbon::createFromFormat('Y-m-d H:i:s', "$date {$request->requested_start_time}") : null;
-        $end = $request->requested_end_time ? Carbon::createFromFormat('Y-m-d H:i:s', "$date {$request->requested_end_time}") : null;
+        $date = $attendance->date;
 
-        // 勤怠データを更新
+        $start = $request->requested_start_time ? Carbon::createFromFormat('Y-m-d H:i:s', "$date {$request->requested_start_time}") : null;
+        $end   = $request->requested_end_time ? Carbon::createFromFormat('Y-m-d H:i:s', "$date {$request->requested_end_time}") : null;
+
         $attendance->start_time = $start;
-        $attendance->end_time = $end;
-        $attendance->note = $request->requested_note;
+        $attendance->end_time   = $end;
+        $attendance->note       = $request->requested_note;
         $attendance->save();
 
-        // ステータス更新
         $request->status = 'approved';
         $request->approved_at = now();
         $request->save();

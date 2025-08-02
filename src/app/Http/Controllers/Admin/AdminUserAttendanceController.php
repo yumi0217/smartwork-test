@@ -23,7 +23,6 @@ class AdminUserAttendanceController extends Controller
             $dates[] = $date->format('Y-m-d');
         }
 
-        // 該当ユーザーのAttendance一覧取得（breaks含む）
         $rawAttendances = Attendance::with('breaks')
             ->where('user_id', $user->id)
             ->whereBetween('date', [$startOfMonth, $endOfMonth])
@@ -35,7 +34,6 @@ class AdminUserAttendanceController extends Controller
             $record = $rawAttendances->firstWhere('date', $date);
 
             if ($record) {
-                // 🔽 まず $approved を定義する
                 $approved = CorrectionRequest::where('attendance_id', $record->id)
                     ->where('status', 'approved')
                     ->latest()
@@ -46,35 +44,27 @@ class AdminUserAttendanceController extends Controller
                     $record->end_time = $approved->requested_end_time;
                     $record->note = $approved->requested_note;
 
-                    $breaks = [];
-
-                    if ($approved->requested_break_start && $approved->requested_break_end) {
-                        $breaks[] = [
-                            'start' => Carbon::parse($approved->requested_break_start),
-                            'end' => Carbon::parse($approved->requested_break_end),
-                        ];
-                    }
-
-                    if ($approved->requested_break2_start && $approved->requested_break2_end) {
-                        $breaks[] = [
-                            'start' => Carbon::parse($approved->requested_break2_start),
-                            'end' => Carbon::parse($approved->requested_break2_end),
-                        ];
-                    }
-
-                    $record->breaks_display = collect($breaks);
+                    $record->breaks_display = collect([
+                        [
+                            'start' => optional($approved->requested_break1_start)->format('H:i'),
+                            'end'   => optional($approved->requested_break1_end)->format('H:i'),
+                        ],
+                        [
+                            'start' => optional($approved->requested_break2_start)->format('H:i'),
+                            'end'   => optional($approved->requested_break2_end)->format('H:i'),
+                        ],
+                    ]);
                 } else {
-                    $record->breaks_display = $record->breaks->map(function ($b) {
+                    $record->breaks_display = $record->breaks->take(2)->map(function ($b) {
                         return [
-                            'start' => $b->break_start,
-                            'end' => $b->break_end,
+                            'start' => optional($b->break_start)->format('H:i'),
+                            'end'   => optional($b->break_end)->format('H:i'),
                         ];
                     });
                 }
 
                 $attendances[$date] = $record;
             } else {
-                // ダミーデータ（休憩なし）
                 $attendances[$date] = new Attendance([
                     'id' => 0,
                     'user_id' => $user->id,
@@ -85,14 +75,12 @@ class AdminUserAttendanceController extends Controller
             }
         }
 
-
         return view('admin.users.attendances', compact('user', 'dates', 'attendances', 'yearMonth'));
     }
 
     public function show(Request $request, $id)
     {
         if ($id == 0 || $id === 'dummy') {
-            // ダミー表示用（詳細ページを空状態で表示）
             $date = $request->input('date');
             $user = User::findOrFail($request->input('user_id'));
 
@@ -129,7 +117,6 @@ class AdminUserAttendanceController extends Controller
         $csvData[] = ['日付', '出勤', '退勤', '休憩', '勤務時間', '備考'];
 
         foreach ($attendances as $attendance) {
-            // 承認済みの修正申請があれば上書き
             $approved = CorrectionRequest::where('attendance_id', $attendance->id)
                 ->where('status', 'approved')
                 ->latest()
@@ -141,7 +128,6 @@ class AdminUserAttendanceController extends Controller
                 $attendance->note = $approved->requested_note;
             }
 
-            // 休憩合計（秒）
             $breakSeconds = 0;
             foreach ($attendance->breaks as $break) {
                 if ($break->break_start && $break->break_end) {
@@ -149,12 +135,10 @@ class AdminUserAttendanceController extends Controller
                 }
             }
 
-            // 勤務時間（秒）
             $start = $attendance->start_time ? Carbon::parse($attendance->start_time) : null;
             $end = $attendance->end_time ? Carbon::parse($attendance->end_time) : null;
             $workSeconds = ($start && $end) ? $end->diffInSeconds($start) - $breakSeconds : 0;
 
-            // 書式変換
             $format = function ($seconds) {
                 $h = floor($seconds / 3600);
                 $m = floor(($seconds % 3600) / 60);

@@ -8,7 +8,6 @@ use App\Models\CorrectionRequest;
 use App\Http\Requests\CorrectionRequestRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class UserCorrectionRequestController extends Controller
 {
@@ -23,15 +22,15 @@ class UserCorrectionRequestController extends Controller
         $attendance->end_time   = $correctionRequest->requested_end_time;
         $attendance->note       = $correctionRequest->requested_note;
 
-        // 空でも2枠確保
+        // optional() で安全に時間フォーマット
         $customBreaks = [
             [
-                'start' => $correctionRequest->requested_break1_start ?? null,
-                'end'   => $correctionRequest->requested_break1_end ?? null,
+                'start' => optional($correctionRequest->requested_break1_start)->format('H:i'),
+                'end'   => optional($correctionRequest->requested_break1_end)->format('H:i'),
             ],
             [
-                'start' => $correctionRequest->requested_break2_start ?? null,
-                'end'   => $correctionRequest->requested_break2_end ?? null,
+                'start' => optional($correctionRequest->requested_break2_start)->format('H:i'),
+                'end'   => optional($correctionRequest->requested_break2_end)->format('H:i'),
             ],
         ];
 
@@ -85,20 +84,18 @@ class UserCorrectionRequestController extends Controller
             ->get();
 
         foreach ($requests as $req) {
-            $req->target_date = \Carbon\Carbon::parse($req->requested_start_time)->format('Y-m-d');
+            $req->target_date = Carbon::parse($req->requested_start_time)->format('Y-m-d');
 
-            $customBreaks = [
+            $req->breaks_display = [
                 [
-                    'start' => $req->requested_break1_start ?? null,
-                    'end'   => $req->requested_break1_end ?? null,
+                    'start' => optional($req->requested_break1_start)->format('H:i'),
+                    'end'   => optional($req->requested_break1_end)->format('H:i'),
                 ],
                 [
-                    'start' => $req->requested_break2_start ?? null,
-                    'end'   => $req->requested_break2_end ?? null,
+                    'start' => optional($req->requested_break2_start)->format('H:i'),
+                    'end'   => optional($req->requested_break2_end)->format('H:i'),
                 ],
             ];
-
-            $req->breaks_display = $customBreaks;
         }
 
         return view('stamp_correction_request.list', compact('requests'));
