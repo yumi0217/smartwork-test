@@ -118,7 +118,7 @@ class UserAttendanceController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $currentMonth = $request->input('selected_month') ?? $request->input('month') ?? now()->format('Y-m');
+        $currentMonth = $request->input('month') ?? $request->input('selected_month') ?? now()->format('Y-m');
         $parsedMonth = Carbon::parse($currentMonth);
         $startOfMonth = $parsedMonth->copy()->startOfMonth();
         $endOfMonth = $parsedMonth->copy()->endOfMonth();
@@ -200,14 +200,10 @@ class UserAttendanceController extends Controller
                 [
                     'start' => optional($correctionRequest->requested_break1_start)->format('H:i'),
                     'end'   => optional($correctionRequest->requested_break1_end)->format('H:i'),
-                    'start' => $format($correctionRequest->requested_break1_start),
-                    'end'   => $format($correctionRequest->requested_break1_end),
                 ],
                 [
                     'start' => optional($correctionRequest->requested_break2_start)->format('H:i'),
                     'end'   => optional($correctionRequest->requested_break2_end)->format('H:i'),
-                    'start' => $format($correctionRequest->requested_break2_start),
-                    'end'   => $format($correctionRequest->requested_break2_end),
                 ],
             ];
 
