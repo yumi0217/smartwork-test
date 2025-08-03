@@ -149,6 +149,7 @@ class UserAttendanceController extends Controller
                 $breaks = collect([
                     ['start' => $format($approved->requested_break1_start), 'end' => $format($approved->requested_break1_end)],
                     ['start' => $format($approved->requested_break2_start), 'end' => $format($approved->requested_break2_end)],
+                
                 ]);
             } else {
                 $breaks = $attendance->breaks->take(2);
@@ -191,15 +192,19 @@ class UserAttendanceController extends Controller
             $attendance->note = $correctionRequest->requested_note;
 
             $format = fn($t) => $t ? Carbon::parse($t)->format('H:i') : null;
+            $break1start = $correctionRequest->requested_break1_start ?? $attendance->breaks->get(0)?->break_start;
+            $break1end   = $correctionRequest->requested_break1_end   ?? $attendance->breaks->get(0)?->break_end;
+            $break2start = $correctionRequest->requested_break2_start ?? $attendance->breaks->get(1)?->break_start;
+            $break2end   = $correctionRequest->requested_break2_end   ?? $attendance->breaks->get(1)?->break_end;
 
             $attendance->breaks_display = [
                 [
-                    'start' => $format($correctionRequest->requested_break1_start),
-                    'end'   => $format($correctionRequest->requested_break1_end),
+                    'start' => optional($break1start)->format('H:i'),
+                    'end'   => optional($break1end)->format('H:i'),
                 ],
                 [
-                    'start' => $format($correctionRequest->requested_break2_start),
-                    'end'   => $format($correctionRequest->requested_break2_end),
+                    'start' => optional($break2start)->format('H:i'),
+                    'end'   => optional($break2end)->format('H:i'),
                 ],
             ];
 
