@@ -56,14 +56,26 @@ class CorrectionRequestController extends Controller
 
         $date = $attendance->date;
 
-        $start = $request->requested_start_time ? Carbon::createFromFormat('Y-m-d H:i:s', "$date {$request->requested_start_time}") : null;
-        $end   = $request->requested_end_time ? Carbon::createFromFormat('Y-m-d H:i:s', "$date {$request->requested_end_time}") : null;
+        // 開始・終了時間がCarbonインスタンスだったら H:i:s に整形
+        $startTimeStr = $request->requested_start_time instanceof \Carbon\Carbon
+            ? $request->requested_start_time->format('H:i:s')
+            : $request->requested_start_time;
 
+        $endTimeStr = $request->requested_end_time instanceof \Carbon\Carbon
+            ? $request->requested_end_time->format('H:i:s')
+            : $request->requested_end_time;
+
+        // 日付 + 時刻文字列を合成してから Carbon に変換
+        $start = $startTimeStr ? Carbon::createFromFormat('Y-m-d H:i:s', "$date $startTimeStr") : null;
+        $end   = $endTimeStr   ? Carbon::createFromFormat('Y-m-d H:i:s', "$date $endTimeStr")   : null;
+
+        // 勤怠へ保存
         $attendance->start_time = $start;
         $attendance->end_time   = $end;
         $attendance->note       = $request->requested_note;
         $attendance->save();
 
+        // 申請ステータス更新
         $request->status = 'approved';
         $request->approved_at = now();
         $request->save();

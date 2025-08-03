@@ -20,13 +20,21 @@ class CorrectionRequest extends Model
         'approved_at',
     ];
 
-    // 勤怠とのリレーション
+    protected $casts = [
+        'requested_start_time'   => 'datetime',
+        'requested_end_time'     => 'datetime',
+        'requested_break1_start' => 'datetime',
+        'requested_break1_end'   => 'datetime',
+        'requested_break2_start' => 'datetime',
+        'requested_break2_end'   => 'datetime',
+        'approved_at'            => 'datetime',
+    ];
+
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);
     }
 
-    // ユーザーとのリレーション
     public function user()
     {
         return $this->belongsTo(User::class);

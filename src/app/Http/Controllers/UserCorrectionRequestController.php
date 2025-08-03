@@ -25,12 +25,12 @@ class UserCorrectionRequestController extends Controller
         // optional() で安全に時間フォーマット
         $customBreaks = [
             [
-                'start' => optional($correctionRequest->requested_break1_start)->format('H:i'),
-                'end'   => optional($correctionRequest->requested_break1_end)->format('H:i'),
+                'start' => $correctionRequest->requested_break1_start ? Carbon::parse($correctionRequest->requested_break1_start) : null,
+                'end'   => $correctionRequest->requested_break1_end ? Carbon::parse($correctionRequest->requested_break1_end) : null,
             ],
             [
-                'start' => optional($correctionRequest->requested_break2_start)->format('H:i'),
-                'end'   => optional($correctionRequest->requested_break2_end)->format('H:i'),
+                'start' => $correctionRequest->requested_break2_start ? Carbon::parse($correctionRequest->requested_break2_start) : null,
+                'end'   => $correctionRequest->requested_break2_end ? Carbon::parse($correctionRequest->requested_break2_end) : null,
             ],
         ];
 

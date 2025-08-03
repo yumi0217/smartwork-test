@@ -43,26 +43,22 @@ $breaks = isset($customBreaks)
         <tr>
             <th>休憩1</th>
             <td class="time-cell">
-                @if(isset($breaks[0]['start']) || isset($breaks[0]['end']))
-                {{ isset($breaks[0]['start']) && $breaks[0]['start'] ? \Carbon\Carbon::parse($breaks[0]['start'])->format('H:i') : '-' }}
-                ～
-                {{ isset($breaks[0]['end']) && $breaks[0]['end'] ? \Carbon\Carbon::parse($breaks[0]['end'])->format('H:i') : '-' }}
-                @else
-                -
-                @endif
+                @php
+                $b1s = isset($breaks[0]['start']) ? \Carbon\Carbon::parse($breaks[0]['start']) : null;
+                $b1e = isset($breaks[0]['end']) ? \Carbon\Carbon::parse($breaks[0]['end']) : null;
+                @endphp
+                {{ optional($b1s)->format('H:i') ?? '-' }} ～ {{ optional($b1e)->format('H:i') ?? '-' }}
             </td>
         </tr>
 
         <tr>
             <th>休憩2</th>
             <td class="time-cell">
-                @if(isset($breaks[1]['start']) || isset($breaks[1]['end']))
-                {{ isset($breaks[1]['start']) && $breaks[1]['start'] ? \Carbon\Carbon::parse($breaks[1]['start'])->format('H:i') : '-' }}
-                ～
-                {{ isset($breaks[1]['end']) && $breaks[1]['end'] ? \Carbon\Carbon::parse($breaks[1]['end'])->format('H:i') : '-' }}
-                @else
-                -
-                @endif
+                @php
+                $b2s = isset($breaks[1]['start']) ? \Carbon\Carbon::parse($breaks[1]['start']) : null;
+                $b2e = isset($breaks[1]['end']) ? \Carbon\Carbon::parse($breaks[1]['end']) : null;
+                @endphp
+                {{ optional($b2s)->format('H:i') ?? '-' }} ～ {{ optional($b2e)->format('H:i') ?? '-' }}
             </td>
         </tr>
 
