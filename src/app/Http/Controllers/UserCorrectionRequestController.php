@@ -23,14 +23,20 @@ class UserCorrectionRequestController extends Controller
         $attendance->note       = $correctionRequest->requested_note;
 
         // optional() で安全に時間フォーマット
+        $format = fn($t) => $t ? Carbon::parse($t)->format('H:i') : null;
+
         $customBreaks = [
             [
                 'start' => $correctionRequest->requested_break1_start ? Carbon::parse($correctionRequest->requested_break1_start) : null,
                 'end'   => $correctionRequest->requested_break1_end ? Carbon::parse($correctionRequest->requested_break1_end) : null,
+                'start' => $format($correctionRequest->requested_break1_start),
+                'end'   => $format($correctionRequest->requested_break1_end),
             ],
             [
                 'start' => $correctionRequest->requested_break2_start ? Carbon::parse($correctionRequest->requested_break2_start) : null,
                 'end'   => $correctionRequest->requested_break2_end ? Carbon::parse($correctionRequest->requested_break2_end) : null,
+                'start' => $format($correctionRequest->requested_break2_start),
+                'end'   => $format($correctionRequest->requested_break2_end),
             ],
         ];
 
@@ -48,6 +54,7 @@ class UserCorrectionRequestController extends Controller
             'user' => $attendance->user,
             'isPending' => $isPending,
             'customBreaks' => $customBreaks,
+            'breaks' => $customBreaks,
             'attendance_id' => $attendance->id,
             'isEditable' => true,
         ]);
@@ -85,15 +92,20 @@ class UserCorrectionRequestController extends Controller
 
         foreach ($requests as $req) {
             $req->target_date = Carbon::parse($req->requested_start_time)->format('Y-m-d');
+            $format = fn($t) => $t ? Carbon::parse($t)->format('H:i') : null;
 
             $req->breaks_display = [
                 [
                     'start' => optional($req->requested_break1_start)->format('H:i'),
                     'end'   => optional($req->requested_break1_end)->format('H:i'),
+                    'start' => $format($req->requested_break1_start),
+                    'end'   => $format($req->requested_break1_end),
                 ],
                 [
                     'start' => optional($req->requested_break2_start)->format('H:i'),
                     'end'   => optional($req->requested_break2_end)->format('H:i'),
+                    'start' => $format($req->requested_break2_start),
+                    'end'   => $format($req->requested_break2_end),
                 ],
             ];
         }

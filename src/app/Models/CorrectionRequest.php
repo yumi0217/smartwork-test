@@ -27,6 +27,13 @@ class CorrectionRequest extends Model
         'requested_break1_end'   => 'datetime',
         'requested_break2_start' => 'datetime',
         'requested_break2_end'   => 'datetime',
+        // time 型カラムを Carbon インスタンスとして扱う
+        'requested_start_time'   => 'datetime:H:i',
+        'requested_end_time'     => 'datetime:H:i',
+        'requested_break1_start' => 'datetime:H:i',
+        'requested_break1_end'   => 'datetime:H:i',
+        'requested_break2_start' => 'datetime:H:i',
+        'requested_break2_end'   => 'datetime:H:i',
         'approved_at'            => 'datetime',
     ];
 
