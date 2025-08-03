@@ -147,8 +147,6 @@ class UserAttendanceController extends Controller
                 $attendance->note = $approved->requested_note;
 
                 $breaks = collect([
-                    ['start' => $approved->requested_break1_start, 'end' => $approved->requested_break1_end],
-                    ['start' => $approved->requested_break2_start, 'end' => $approved->requested_break2_end],
                     ['start' => $format($approved->requested_break1_start), 'end' => $format($approved->requested_break1_end)],
                     ['start' => $format($approved->requested_break2_start), 'end' => $format($approved->requested_break2_end)],
                 ]);
@@ -160,8 +158,6 @@ class UserAttendanceController extends Controller
                 }
 
                 $breaks = $breaks->map(fn($b) => [
-                    'start' => $b->break_start,
-                    'end' => $b->break_end,
                     'start' => $format($b->break_start),
                     'end'   => $format($b->break_end),
                 ]);
@@ -198,12 +194,12 @@ class UserAttendanceController extends Controller
 
             $attendance->breaks_display = [
                 [
-                    'start' => optional($correctionRequest->requested_break1_start)->format('H:i'),
-                    'end'   => optional($correctionRequest->requested_break1_end)->format('H:i'),
+                    'start' => $format($correctionRequest->requested_break1_start),
+                    'end'   => $format($correctionRequest->requested_break1_end),
                 ],
                 [
-                    'start' => optional($correctionRequest->requested_break2_start)->format('H:i'),
-                    'end'   => optional($correctionRequest->requested_break2_end)->format('H:i'),
+                    'start' => $format($correctionRequest->requested_break2_start),
+                    'end'   => $format($correctionRequest->requested_break2_end),
                 ],
             ];
 
@@ -229,8 +225,6 @@ class UserAttendanceController extends Controller
         $format = fn($t) => $t ? Carbon::parse($t)->format('H:i') : null;
 
         $attendance->breaks_display = $breaks->map(fn($b) => [
-            'start' => optional($b->break_start)->format('H:i'),
-            'end'   => optional($b->break_end)->format('H:i'),
             'start' => $format($b->break_start),
             'end'   => $format($b->break_end),
         ])->values()->toArray();

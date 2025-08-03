@@ -5,11 +5,6 @@
 @endsection
 
 @section('content')
-@php
-$breaks = isset($customBreaks)
-? (is_array($customBreaks) ? $customBreaks : collect($customBreaks)->toArray())
-: (is_array($attendance->breaks_display) ? $attendance->breaks_display : collect($attendance->breaks_display)->toArray());
-@endphp
 
 <div class="page-title">
     <span class="title-bar"></span>

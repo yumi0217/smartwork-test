@@ -21,12 +21,12 @@ class CorrectionRequest extends Model
     ];
 
     protected $casts = [
-        'requested_start_time'   => 'datetime',
-        'requested_end_time'     => 'datetime',
-        'requested_break1_start' => 'datetime',
-        'requested_break1_end'   => 'datetime',
-        'requested_break2_start' => 'datetime',
-        'requested_break2_end'   => 'datetime',
+        'requested_start_time'   => 'datetime:H:i',
+        'requested_end_time'     => 'datetime:H:i',
+        'requested_break1_start' => 'datetime:H:i',
+        'requested_break1_end'   => 'datetime:H:i',
+        'requested_break2_start' => 'datetime:H:i',
+        'requested_break2_end'   => 'datetime:H:i',
         'approved_at'            => 'datetime',
     ];
 
