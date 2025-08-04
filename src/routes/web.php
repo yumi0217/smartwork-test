@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/attendance/detail/date/{date}', [UserAttendanceController::class, 'showByDate'])->name('attendance.show.byDate');
 
+    Route::get('/attendance/approved/{id}', [UserAttendanceController::class, 'approvedShow'])->name('attendance.approved.show');
+
     // 修正申請の送信（POST）→ フォームと一致させる
     Route::post('/correction-request/store', [UserCorrectionRequestController::class, 'store'])->name('correction_requests.store');
 

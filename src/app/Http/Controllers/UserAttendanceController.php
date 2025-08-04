@@ -149,7 +149,7 @@ class UserAttendanceController extends Controller
                 $breaks = collect([
                     ['start' => $format($approved->requested_break1_start), 'end' => $format($approved->requested_break1_end)],
                     ['start' => $format($approved->requested_break2_start), 'end' => $format($approved->requested_break2_end)],
-                
+
                 ]);
             } else {
                 $breaks = $attendance->breaks->take(2);
@@ -185,6 +185,10 @@ class UserAttendanceController extends Controller
             ->whereDate('requested_start_time', $attendanceDate)
             ->latest()
             ->first();
+
+        if ($correctionRequest && $correctionRequest->status === 'approved') {
+            return redirect()->route('attendance.approved.show', ['id' => $attendance->id]);
+        }
 
         if ($correctionRequest) {
             $attendance->start_time = $correctionRequest->requested_start_time;
@@ -286,6 +290,50 @@ class UserAttendanceController extends Controller
             'isEditable' => true,
             'correctionRequest' => null,
             'customBreaks' => $attendance->breaks_display,
+        ]);
+    }
+
+    public function approvedShow($id)
+    {
+        $attendance = Attendance::with('breaks', 'user')->find($id);
+
+        if (!$attendance) {
+            return redirect()->route('attendance.index')->with('error', '勤怠データが見つかりません');
+        }
+
+        $correctionRequest = CorrectionRequest::where('attendance_id', $id)
+            ->where('status', 'approved')
+            ->latest()
+            ->first();
+
+        if (!$correctionRequest) {
+            return redirect()->route('attendance.index')->with('error', '承認済みの修正申請がありません');
+        }
+
+        $attendance->start_time = $correctionRequest->requested_start_time;
+        $attendance->end_time = $correctionRequest->requested_end_time;
+        $attendance->note = $correctionRequest->requested_note;
+
+        $format = fn($t) => $t ? \Carbon\Carbon::parse($t)->format('H:i') : '';
+
+        $break1start = $correctionRequest->requested_break1_start;
+        $break1end   = $correctionRequest->requested_break1_end;
+        $break2start = $correctionRequest->requested_break2_start;
+        $break2end   = $correctionRequest->requested_break2_end;
+
+        $customBreaks = [
+            ['start' => $format($break1start), 'end' => $format($break1end)],
+            ['start' => $format($break2start), 'end' => $format($break2end)],
+        ];
+
+        return view('attendance.approved', [
+            'attendance' => $attendance,
+            'attendance_id' => $attendance->id,
+            'dateYear' => \Carbon\Carbon::parse($attendance->date)->format('Y年'),
+            'dateDay' => \Carbon\Carbon::parse($attendance->date)->format('n月j日'),
+            'correctionRequest' => $correctionRequest,
+            'customBreaks' => $customBreaks,
+            'isEditable' => true,
         ]);
     }
 }

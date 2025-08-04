@@ -90,20 +90,30 @@
                 <td>{{ $workSeconds ? formatDuration($workSeconds) : '' }}</td>
                 <td>
                     @php
-                    $correction = $attendance
+                    $approved = $attendance
+                    ? \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
+                    ->where('status', 'approved')
+                    ->latest()
+                    ->first()
+                    : null;
+
+                    $pending = $attendance
                     ? \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
                     ->where('status', 'pending')
                     ->first()
                     : null;
                     @endphp
 
-                    @if ($correction)
-                    <a href="{{ route('correction_requests.show', ['id' => $correction->id]) }}">詳細</a>
+                    @if ($approved)
+                    <a href="{{ route('attendance.approved.show', ['id' => $attendance->id]) }}">詳細</a>
+                    @elseif ($pending)
+                    <a href="{{ route('correction_requests.show', ['id' => $pending->id]) }}">詳細</a>
                     @elseif ($attendance)
                     <a href="{{ route('attendance.show', $attendance->id) }}">詳細</a>
                     @else
                     <a href="{{ route('attendance.show.byDate', ['date' => $dateObj->format('Y-m-d')]) }}">詳細</a>
                     @endif
+
                 </td>
             </tr>
             @endforeach

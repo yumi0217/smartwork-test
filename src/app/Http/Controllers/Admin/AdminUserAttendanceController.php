@@ -39,6 +39,8 @@ class AdminUserAttendanceController extends Controller
                     ->latest()
                     ->first();
 
+                $format = fn($t) => $t ? Carbon::parse($t)->format('H:i') : null;
+
                 if ($approved) {
                     $record->start_time = $approved->requested_start_time;
                     $record->end_time = $approved->requested_end_time;
@@ -46,19 +48,19 @@ class AdminUserAttendanceController extends Controller
 
                     $record->breaks_display = collect([
                         [
-                            'start' => optional($approved->requested_break1_start)->format('H:i'),
-                            'end'   => optional($approved->requested_break1_end)->format('H:i'),
+                            'start' => $format($approved->requested_break1_start),
+                            'end'   => $format($approved->requested_break1_end),
                         ],
                         [
-                            'start' => optional($approved->requested_break2_start)->format('H:i'),
-                            'end'   => optional($approved->requested_break2_end)->format('H:i'),
+                            'start' => $format($approved->requested_break2_start),
+                            'end'   => $format($approved->requested_break2_end),
                         ],
                     ]);
                 } else {
-                    $record->breaks_display = $record->breaks->take(2)->map(function ($b) {
+                    $record->breaks_display = $record->breaks->take(2)->map(function ($b) use ($format) {
                         return [
-                            'start' => optional($b->break_start)->format('H:i'),
-                            'end'   => optional($b->break_end)->format('H:i'),
+                            'start' => $format($b->break_start),
+                            'end'   => $format($b->break_end),
                         ];
                     });
                 }

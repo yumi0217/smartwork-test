@@ -31,7 +31,6 @@
         </form>
     </div>
 
-    {{-- ★★★ ここに追加 ★★★ --}}
     @php
     if (!function_exists('formatDuration')) {
     function formatDuration($seconds) {
@@ -66,8 +65,9 @@
             if ($attendance && $attendance->breaks_display) {
             foreach ($attendance->breaks_display as $break) {
             if (!empty($break['start']) && !empty($break['end'])) {
-            $breakStart = \Carbon\Carbon::parse($break['start']);
-            $breakEnd = \Carbon\Carbon::parse($break['end']);
+            $breakDate = \Carbon\Carbon::parse($attendance->date);
+            $breakStart = $breakDate->copy()->setTimeFromTimeString($break['start']);
+            $breakEnd = $breakDate->copy()->setTimeFromTimeString($break['end']);
             $breakSeconds += $breakEnd->diffInSeconds($breakStart);
             }
             }
