@@ -59,6 +59,8 @@ Laravel Fortify を使用して以下の機能を実装しています：
 - ログイン／ログアウト
 - パスワード変更  
 
+---
+
   8. Fortify のインストール
 ```
 composer require laravel/fortify
