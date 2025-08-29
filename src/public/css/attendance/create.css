@@ -98,3 +98,24 @@ button[type="submit"]:hover {
     justify-content: center;
     gap: 20px;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .container {
+        max-width: 640px;
+        padding: 60px 50px;
+    }
+
+    .time {
+        font-size: 48px;
+    }
+
+    .attendance-button {
+        font-size: 18px;
+        width: 140px;
+    }
+
+    .status-badge {
+        font-size: 15px;
+        padding: 8px 20px;
+    }
+}

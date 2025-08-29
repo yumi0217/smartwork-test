@@ -139,3 +139,44 @@
     margin-top: 4px;
     display: block;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-detail-container {
+        max-width: 900px;
+        padding: 60px;
+    }
+
+    .page-title {
+        max-width: 900px;
+        margin-bottom: 30px;
+    }
+
+    .title-text {
+        font-size: 36px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+        padding: 20px;
+        font-size: 15px;
+    }
+
+    .detail-table input,
+    .detail-table textarea {
+        font-size: 15px;
+        padding: 8px;
+    }
+
+    .detail-table textarea {
+        width: 70%;
+    }
+
+    .date-split {
+        gap: 120px;
+    }
+
+    .update-button {
+        font-size: 16px;
+        padding: 10px 30px;
+    }
+}

@@ -11,7 +11,6 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-
         $names = [
             '山田 太郎',
             '西 怜奈',
@@ -34,7 +33,6 @@ class UserSeeder extends Seeder
             '青木 健太',
             '本田 千尋',
             '未打刻 太郎',
-
         ];
 
         $generalUsers = [];
@@ -48,6 +46,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ];
         }
+
         DB::table('users')->insert($generalUsers);
     }
 }

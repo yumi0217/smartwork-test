@@ -137,3 +137,32 @@
     /* ← ホバー時に黒 */
     text-decoration: underline;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-container {
+        max-width: 1100px;
+        padding: 50px;
+    }
+
+    .title-text {
+        font-size: 34px;
+    }
+
+    .date-selector {
+        padding: 14px 32px;
+    }
+
+    .date-form input[type="date"] {
+        font-size: 17px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        padding: 20px;
+        font-size: 15px;
+    }
+
+    .attendance-table a {
+        font-size: 14px;
+    }
+}

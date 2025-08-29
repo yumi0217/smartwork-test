@@ -84,11 +84,28 @@
                 <td>{{ $workSeconds > 0 ? formatDuration($workSeconds) : '' }}</td>
                 <td>
                     @if (!empty($attendance))
+                    @php
+                    $approved = \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
+                    ->where('status', 'approved')->exists();
+
+                    // edited_by_admin フラグで判断
+                    $hasEdited = $attendance->edited_by_admin;
+                    @endphp
+
+                    @if ($hasEdited)
+                    <a href="{{ route('admin.attendances.edited', $attendance->id) }}">詳細</a>
+                    @elseif ($approved)
+                    <a href="{{ route('admin.attendances.approved', $attendance->id) }}">詳細</a>
+                    @else
                     <a href="{{ route('admin.attendances.show', $attendance->id) }}">詳細</a>
+                    @endif
                     @else
                     -
                     @endif
+
                 </td>
+
+
             </tr>
             @endforeach
 

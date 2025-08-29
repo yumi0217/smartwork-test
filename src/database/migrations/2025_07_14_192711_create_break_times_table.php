@@ -13,6 +13,10 @@ class CreateBreakTimesTable extends Migration
             $table->foreignId('attendance_id')->constrained()->onDelete('cascade');
             $table->dateTime('break_start')->nullable();
             $table->dateTime('break_end')->nullable();
+
+            // ★追加：休憩順序を明示する（1 = 休憩1、2 = 休憩2）
+            $table->unsignedTinyInteger('break_order')->default(1);
+
             $table->timestamps();
         });
     }

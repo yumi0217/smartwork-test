@@ -14,9 +14,7 @@
     </div>
 </div>
 
-{{-- ▼ 月選択 UI（formで input type="month"） --}}
-{{-- ▼ 月選択 UI（年月入力付き） --}}
-{{-- ▼ 月選択 UI（中央に年月、左右端に前月・翌月） --}}
+{{-- ▼ 月選択 UI --}}
 <div class="month-selector">
     <div class="month-nav-left">
         <a href="{{ route('admin.users.attendances', ['user' => $user->id, 'month' => \Carbon\Carbon::parse($yearMonth)->subMonth()->format('Y-m')]) }}">← 前月</a>
@@ -34,7 +32,15 @@
     </div>
 </div>
 
-
+@php
+if (!function_exists('formatDuration')) {
+function formatDuration($seconds) {
+$hours = floor($seconds / 3600);
+$minutes = floor(($seconds % 3600) / 60);
+return sprintf('%d:%02d', $hours, $minutes);
+}
+}
+@endphp
 
 {{-- ▼ 勤怠テーブル --}}
 <div class="attendance-container">
@@ -54,29 +60,38 @@
             @php
             $attendance = $attendances[$date] ?? null;
             $carbon = \Carbon\Carbon::parse($date);
+
+            $start = $attendance && $attendance->start_time ? \Carbon\Carbon::parse($attendance->start_time) : null;
+            $end = $attendance && $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time) : null;
+
+            $breakSeconds = 0;
+
+            if ($attendance && isset($attendance->customBreaks)) {
+            foreach ($attendance->customBreaks as $break) {
+            if (!empty($break['start']) && !empty($break['end'])) {
+            $breakDate = \Carbon\Carbon::parse($attendance->date);
+            $breakStart = $breakDate->copy()->setTimeFromTimeString($break['start']);
+            $breakEnd = $breakDate->copy()->setTimeFromTimeString($break['end']);
+            $breakSeconds += $breakEnd->diffInSeconds($breakStart);
+            }
+            }
+            }
+
+            $workSeconds = ($start && $end) ? $end->diffInSeconds($start) - $breakSeconds : null;
             @endphp
             <tr>
                 <td>{{ $carbon->format('m/d') }}（{{ ['日','月','火','水','木','金','土'][$carbon->dayOfWeek] }}）</td>
-                <td>{{ $attendance && $attendance->start_time ? \Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '' }}</td>
-                <td>{{ $attendance && $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}</td>
+                <td>{{ $start ? $start->format('H:i') : '' }}</td>
+                <td>{{ $end ? $end->format('H:i') : '' }}</td>
+                <td>{{ $breakSeconds > 0 ? formatDuration($breakSeconds) : '' }}</td>
+                <td>{{ $workSeconds > 0 ? formatDuration($workSeconds) : '' }}</td>
                 <td>
-                    {{ $attendance && $attendance->total_break_duration !== '0:00' ? $attendance->total_break_duration : '' }}
-                </td>
-                <td>
-                    {{ $attendance && $attendance->total_work_duration !== '0:00' ? $attendance->total_work_duration : '' }}
-                </td>
-                <td> {{-- ✅ ここにtdが必要 --}}
                     <a href="{{ route('admin.attendances.show', ['id' => $attendance->id ?? 0, 'user_id' => $user->id, 'date' => $date]) }}">詳細</a>
-                </td> {{-- ✅ td閉じる --}}
+                </td>
             </tr>
             @endforeach
         </tbody>
-
-
-
     </table>
-
-
 </div>
 
 <form method="GET" action="{{ route('admin.users.attendances.export', ['user' => $user->id]) }}">

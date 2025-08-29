@@ -20,13 +20,18 @@ class CreateAttendancesTable extends Migration
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
 
-            // 🔽 ここに追加（勤務状態の管理用）
+            // 🔽 勤務状態（任意）
             $table->enum('status', ['出勤中', '退勤済み', '休憩中'])->default('出勤中');
 
             $table->text('note')->nullable();
+
+            // 🔽 管理者が手動で編集したかどうか
+            $table->boolean('edited_by_admin')->default(false);
+
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

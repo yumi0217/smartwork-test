@@ -60,10 +60,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/attendance/clock-out', [UserAttendanceController::class, 'clockOut'])->name('attendance.clockOut');
     Route::post('/attendance/break-start', [UserAttendanceController::class, 'breakStart'])->name('attendance.breakStart');
     Route::post('/attendance/break-end', [UserAttendanceController::class, 'breakEnd'])->name('attendance.breakEnd');
+    // 勤怠一覧画面（一般ユーザー）
+    Route::get('/attendance/list', [UserAttendanceController::class, 'index'])->name('attendance.index');
 });
 
-// 勤怠一覧画面（一般ユーザー）
-Route::get('/attendance/list', [UserAttendanceController::class, 'index'])->name('attendance.index');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -73,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attendance/detail/date/{date}', [UserAttendanceController::class, 'showByDate'])->name('attendance.show.byDate');
 
     Route::get('/attendance/approved/{id}', [UserAttendanceController::class, 'approvedShow'])->name('attendance.approved.show');
+    Route::get('/attendance/edited/{id}', [UserAttendanceController::class, 'editedShow'])->name('attendance.edited.show');
 
     // 修正申請の送信（POST）→ フォームと一致させる
     Route::post('/correction-request/store', [UserCorrectionRequestController::class, 'store'])->name('correction_requests.store');
@@ -112,12 +113,13 @@ Route::prefix('admin')->group(function () {
     })->name('login');
 });
 
-// 勤怠一覧画面
-//詳細画面
+
 Route::prefix('admin')->middleware(['auth:admin'])->name('admin.')->group(function () {
     Route::get('/attendances', [AttendanceController::class, 'index'])->name('attendances.index');
     Route::get('/attendances/{id}', [AttendanceController::class, 'show'])->name('attendances.show');
     Route::put('/attendances/{id}', [AttendanceController::class, 'update'])->name('attendances.update');
+    Route::get('/attendances/approved/{id}', [AttendanceController::class, 'approvedShow'])->name('attendances.approved');
+    Route::get('/attendances/edited/{id}', [AttendanceController::class, 'editedShow'])->name('attendances.edited');
 
     // スタッフ一覧
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');

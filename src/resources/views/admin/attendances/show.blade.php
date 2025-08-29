@@ -15,6 +15,12 @@
     @csrf
     @method('PUT')
 
+    @php
+    $breaks = $attendance->breaks->values();
+    $break1 = $breaks->get(0);
+    $break2 = $breaks->get(1);
+    @endphp
+
     <div class="attendance-detail-container">
         <table class="detail-table">
             <tr>
@@ -49,26 +55,29 @@
             <tr>
                 <th>休憩</th>
                 <td>
-                    <input type="time" name="break1_start"
-                        value="{{ old('break1_start', isset($attendance->breaks[0]) && $attendance->breaks[0]->break_start ? \Carbon\Carbon::parse($attendance->breaks[0]->break_start)->format('H:i') : '') }}">
+                    <input type="time" name="requested_break1_start"
+                        value="{{ old('requested_break1_start', optional($break1)->break_start ? \Carbon\Carbon::parse($break1->break_start)->format('H:i') : '') }}">
                     ～
-                    <input type="time" name="break1_end"
-                        value="{{ old('break1_end', isset($attendance->breaks[0]) && $attendance->breaks[0]->break_end ? \Carbon\Carbon::parse($attendance->breaks[0]->break_end)->format('H:i') : '') }}">
+                    <input type="time" name="requested_break1_end"
+                        value="{{ old('requested_break1_end', optional($break1)->break_end ? \Carbon\Carbon::parse($break1->break_end)->format('H:i') : '') }}">
                     <div class="error">
-                        @if ($errors->has('break1_start'))
-                        <span class="error-message">{{ $errors->first('break1_start') }}</span>
-                        @elseif ($errors->has('break1_end'))
-                        <span class="error-message">{{ $errors->first('break1_end') }}</span>
+                        @if ($errors->has('requested_break1_start'))
+                        <span class="error-message">{{ $errors->first('requested_break1_start') }}</span>
+                        @elseif ($errors->has('requested_break1_end'))
+                        <span class="error-message">{{ $errors->first('requested_break1_end') }}</span>
                         @endif
                     </div>
                 </td>
             </tr>
+
             <tr>
                 <th>休憩2</th>
                 <td>
-                    <input type="time" name="break2_start" value="{{ old('break2_start', isset($attendance->breaks[1]) && $attendance->breaks[1]->break_start ? \Carbon\Carbon::parse($attendance->breaks[1]->break_start)->format('H:i') : '') }}">
+                    <input type="time" name="break2_start"
+                        value="{{ old('break2_start', optional($break2)->break_start ? \Carbon\Carbon::parse($break2->break_start)->format('H:i') : '') }}">
                     ～
-                    <input type="time" name="break2_end" value="{{ old('break2_end', isset($attendance->breaks[1]) && $attendance->breaks[1]->break_end ? \Carbon\Carbon::parse($attendance->breaks[1]->break_end)->format('H:i') : '') }}">
+                    <input type="time" name="break2_end"
+                        value="{{ old('break2_end', optional($break2)->break_end ? \Carbon\Carbon::parse($break2->break_end)->format('H:i') : '') }}">
                     <div class="error">
                         @if ($errors->has('break2_start'))
                         <span class="error-message">{{ $errors->first('break2_start') }}</span>
@@ -78,6 +87,7 @@
                     </div>
                 </td>
             </tr>
+
 
 
 

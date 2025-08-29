@@ -75,3 +75,27 @@
     font-weight: bold;
     border-radius: 6px;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .detail-container {
+        max-width: 900px;
+        padding: 50px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        margin-bottom: 36px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+        font-size: 15px;
+        padding: 20px;
+    }
+
+    .approve-btn,
+    .approved-label {
+        font-size: 16px;
+        padding: 14px 36px;
+    }
+}

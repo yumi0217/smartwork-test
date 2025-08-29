@@ -90,3 +90,30 @@
 .request-table a:hover {
     text-decoration: underline;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .request-list-container {
+        max-width: 1200px;
+        padding: 40px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        margin-bottom: 36px;
+    }
+
+    .tab {
+        font-size: 18px;
+        padding: 12px 0;
+    }
+
+    .request-table th,
+    .request-table td {
+        font-size: 15px;
+        padding: 16px 20px;
+    }
+
+    .request-table a {
+        font-size: 14px;
+    }
+}

@@ -17,7 +17,7 @@ class BreakSeeder extends Seeder
         $endDate = Carbon::parse('2025-08-31');
 
         $minUserId = 1;
-        $maxUserId = 21;
+        $maxUserId = 23; // デモユーザーA(22)・B(23)まで対応
 
         while ($startDate->lte($endDate)) {
             $isWeekend = $startDate->isWeekend();
@@ -30,13 +30,21 @@ class BreakSeeder extends Seeder
                     ->pluck('id');
 
                 foreach ($attendances as $attendanceId) {
-                    // 休憩①：12:00～13:00 のみ
                     DB::table('break_times')->insert([
-                        'attendance_id' => $attendanceId,
-                        'break_start' => $startDate->format('Y-m-d') . ' 12:00:00',
-                        'break_end'   => $startDate->format('Y-m-d') . ' 13:00:00',
-                        'created_at'  => now(),
-                        'updated_at'  => now(),
+                        [
+                            'attendance_id' => $attendanceId,
+                            'break_start' => $startDate->format('Y-m-d') . ' 12:00:00',
+                            'break_end'   => $startDate->format('Y-m-d') . ' 13:00:00',
+                            'created_at'  => now(),
+                            'updated_at'  => now(),
+                        ],
+                        [
+                            'attendance_id' => $attendanceId,
+                            'break_start' => $startDate->format('Y-m-d') . ' 15:00:00',
+                            'break_end'   => $startDate->format('Y-m-d') . ' 15:15:00',
+                            'created_at'  => now(),
+                            'updated_at'  => now(),
+                        ],
                     ]);
                 }
             }

@@ -5,15 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\BreakTime;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Attendance extends Model
 {
+    use HasFactory;
+    
     protected $fillable = [
         'user_id',
         'date',
         'start_time',
         'end_time',
         'note',
+        'status',
+        'edited_by_admin',
     ];
 
     protected $appends = ['breaks_display'];
@@ -92,10 +97,30 @@ class Attendance extends Model
      */
     public function getBreaksDisplayAttribute()
     {
+        // 承認済み修正申請がある場合はそちらを優先
+        $latestApproved = $this->correctionRequests()
+            ->where('status', 'approved')
+            ->latest()
+            ->first();
+
+        if ($latestApproved) {
+            return collect([
+                [
+                    'start' => $latestApproved->requested_break1_start,
+                    'end'   => $latestApproved->requested_break1_end,
+                ],
+                [
+                    'start' => $latestApproved->requested_break2_start,
+                    'end'   => $latestApproved->requested_break2_end,
+                ],
+            ]);
+        }
+
+        // それ以外は通常の休憩を最大2件まで表示
         return $this->breaks->take(2)->map(function ($break) {
             return [
                 'start' => $break->break_start,
-                'end' => $break->break_end,
+                'end'   => $break->break_end,
             ];
         });
     }

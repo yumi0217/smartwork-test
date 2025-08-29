@@ -100,3 +100,18 @@ main {
         font-size: 16px;
     }
 }
+
+/* ★ 追加：PC幅（1400〜1540px）向けのレスポンシブ */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    main {
+        padding-top: 60px;
+        height: auto;
+    }
+
+    .auth-container {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 600px;
+        padding: 60px 40px;
+    }
+}

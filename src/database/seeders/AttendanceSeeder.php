@@ -16,7 +16,8 @@ class AttendanceSeeder extends Seeder
 
         $holidays = Yasumi::create('Japan', 2025);
 
-        for ($i = 1; $i <= 21; $i++) { // user_id = 1～21
+        // user_id = 1〜21（demo_user を除く）
+        for ($i = 1; $i <= 21; $i++) {
             $date = $startDate->copy();
 
             while ($date->lte($endDate)) {

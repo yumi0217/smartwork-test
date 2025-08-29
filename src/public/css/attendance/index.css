@@ -190,3 +190,32 @@ input[type="month"] {
     -webkit-appearance: none;
     /* Safari/Chrome対応 */
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-container {
+        max-width: 1000px;
+        padding: 50px;
+    }
+
+    .title-text {
+        font-size: 34px;
+    }
+
+    .calendar-controls {
+        padding: 16px 30px;
+    }
+
+    .date-selector {
+        padding: 16px 30px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        padding: 20px 12px;
+        font-size: 15px;
+    }
+
+    .attendance-table a {
+        font-size: 14px;
+    }
+}

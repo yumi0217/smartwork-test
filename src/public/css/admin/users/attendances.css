@@ -159,3 +159,33 @@
 .csv-button-fixed .export-button:hover {
     background-color: #333;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+
+    .page-title-container,
+    .month-selector,
+    .attendance-container,
+    .csv-button-fixed {
+        max-width: 900px;
+    }
+
+    .title-text {
+        font-size: 28px;
+    }
+
+    .month-form input[type="month"] {
+        font-size: 18px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        font-size: 15px;
+        padding: 14px;
+    }
+
+    .export-button,
+    .csv-button-fixed .export-button {
+        font-size: 15px;
+        padding: 10px 30px;
+    }
+}

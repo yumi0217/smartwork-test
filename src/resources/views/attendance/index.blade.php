@@ -86,33 +86,35 @@
                 <td>{{ $formattedDate }}{{ $weekdayMap[$dateObj->dayOfWeek] }}</td>
                 <td>{{ $start ? $start->format('H:i') : '' }}</td>
                 <td>{{ $end ? $end->format('H:i') : '' }}</td>
-                <td>{{ $hasValidBreak ? formatDuration($breakSeconds) : '-' }}</td>
+                <td>{{ $hasValidBreak ? formatDuration($breakSeconds) : '' }}</td>
                 <td>{{ $workSeconds ? formatDuration($workSeconds) : '' }}</td>
                 <td>
+                    @if ($attendance)
                     @php
-                    $approved = $attendance
-                    ? \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
+                    $approved = \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
                     ->where('status', 'approved')
                     ->latest()
-                    ->first()
-                    : null;
+                    ->first();
 
-                    $pending = $attendance
-                    ? \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
+                    $pending = \App\Models\CorrectionRequest::where('attendance_id', $attendance->id)
                     ->where('status', 'pending')
-                    ->first()
-                    : null;
+                    ->first();
                     @endphp
 
                     @if ($approved)
                     <a href="{{ route('attendance.approved.show', ['id' => $attendance->id]) }}">詳細</a>
+                    @elseif ($attendance->is_edited)
+                    <a href="{{ route('attendance.edited.show', ['id' => $attendance->id]) }}">詳細</a>
                     @elseif ($pending)
                     <a href="{{ route('correction_requests.show', ['id' => $pending->id]) }}">詳細</a>
-                    @elseif ($attendance)
+                    @else
                     <a href="{{ route('attendance.show', $attendance->id) }}">詳細</a>
+                    @endif
                     @else
                     <a href="{{ route('attendance.show.byDate', ['date' => $dateObj->format('Y-m-d')]) }}">詳細</a>
                     @endif
+
+
 
                 </td>
             </tr>

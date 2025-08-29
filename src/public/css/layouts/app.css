@@ -81,3 +81,20 @@ body {
 main {
     padding: 40px 20px;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .user-header-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+
+    .nav-menu a,
+    .logout-btn {
+        font-size: 15px;
+    }
+
+    .logo-area .logo {
+        height: 36px;
+    }
+}

@@ -57,8 +57,8 @@ class CorrectionRequestRequest extends FormRequest
             $start = $this->input('requested_start_time');
             $end = $this->input('requested_end_time');
 
-            $breakStart = $this->input('requested_break_start');
-            $breakEnd = $this->input('requested_break_end');
+            $breakStart = $this->input('requested_break1_start');
+            $breakEnd = $this->input('requested_break1_end');
 
             $break2Start = $this->input('requested_break2_start');
             $break2End = $this->input('requested_break2_end');
@@ -71,22 +71,22 @@ class CorrectionRequestRequest extends FormRequest
 
             // 休憩1の整合性
             if ($breakStart && !$breakEnd) {
-                $validator->errors()->add('requested_break_end', '休憩1の終了時間を入力してください');
+                $validator->errors()->add('requested_break1_end', '休憩1の終了時間を入力してください');
             }
 
             if (!$breakStart && $breakEnd) {
-                $validator->errors()->add('requested_break_start', '休憩1の開始時間を入力してください');
+                $validator->errors()->add('requested_break1_start', '休憩1の開始時間を入力してください');
             }
 
             if ($breakStart && $breakEnd) {
                 if ($start && $end && ($breakStart < $start || $breakEnd > $end)) {
-                    $validator->errors()->add('requested_break_start', '休憩1の時間が勤務時間外です');
-                    $validator->errors()->add('requested_break_end', '休憩1の時間が勤務時間外です');
+                    $validator->errors()->add('requested_break1_start', '休憩1の時間が勤務時間外です');
+                    $validator->errors()->add('requested_break1_end', '休憩1の時間が勤務時間外です');
                 }
 
                 if ($breakStart > $breakEnd) {
-                    $validator->errors()->add('requested_break_start', '休憩1の開始が終了より後になっています');
-                    $validator->errors()->add('requested_break_end', '休憩1の終了が開始より前になっています');
+                    $validator->errors()->add('requested_break1_start', '休憩1の開始が終了より後になっています');
+                    $validator->errors()->add('requested_break1_end', '休憩1の終了が開始より前になっています');
                 }
             }
 

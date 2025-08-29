@@ -53,3 +53,21 @@ body {
 .resend-link:hover {
     text-decoration: underline;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .verify-container {
+        margin: 100px auto;
+        padding: 60px 60px;
+        max-width: 700px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .main-message {
+        font-size: 17px;
+    }
+
+    .verify-button {
+        font-size: 16px;
+        padding: 14px 28px;
+    }
+}

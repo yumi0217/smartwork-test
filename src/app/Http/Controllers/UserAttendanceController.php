@@ -173,29 +173,34 @@ class UserAttendanceController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with('breaks', 'user')->find($id);
-
         if (!$attendance) {
             return redirect()->route('attendance.index')->with('error', '勤怠データが見つかりません');
         }
 
-        $attendanceDate = Carbon::parse($attendance->date)->format('Y-m-d');
+        // ✅ 管理者が編集していればそれを最優先
+        if ($attendance->edited_by_admin) {
+            return redirect()->route('attendance.edited.show', ['id' => $attendance->id]);
+        }
 
+        // ✅ 修正申請取得（承認待ち・承認済み）
         $correctionRequest = CorrectionRequest::where('attendance_id', $id)
             ->whereIn('status', ['pending', 'approved'])
-            ->whereDate('requested_start_time', $attendanceDate)
             ->latest()
             ->first();
 
+        // ✅ 承認済み修正申請がある場合
         if ($correctionRequest && $correctionRequest->status === 'approved') {
             return redirect()->route('attendance.approved.show', ['id' => $attendance->id]);
         }
 
+        // ✅ 修正申請中 → 承認待ち修正詳細画面
         if ($correctionRequest) {
             $attendance->start_time = $correctionRequest->requested_start_time;
             $attendance->end_time = $correctionRequest->requested_end_time;
             $attendance->note = $correctionRequest->requested_note;
 
-            $format = fn($t) => $t ? Carbon::parse($t)->format('H:i') : null;
+            $format = fn($t) => $t ? \Carbon\Carbon::parse($t)->format('H:i') : null;
+
             $break1start = $correctionRequest->requested_break1_start ?? $attendance->breaks->get(0)?->break_start;
             $break1end   = $correctionRequest->requested_break1_end   ?? $attendance->breaks->get(0)?->break_end;
             $break2start = $correctionRequest->requested_break2_start ?? $attendance->breaks->get(1)?->break_start;
@@ -215,8 +220,8 @@ class UserAttendanceController extends Controller
             return view('correction_requests.show', [
                 'attendance' => $attendance,
                 'attendance_id' => $attendance->id,
-                'dateYear' => Carbon::parse($attendance->date)->format('Y年'),
-                'dateDay' => Carbon::parse($attendance->date)->format('n月j日'),
+                'dateYear' => \Carbon\Carbon::parse($attendance->date)->format('Y年'),
+                'dateDay' => \Carbon\Carbon::parse($attendance->date)->format('n月j日'),
                 'correctionRequest' => $correctionRequest,
                 'isEditable' => false,
                 'user' => $attendance->user,
@@ -225,13 +230,13 @@ class UserAttendanceController extends Controller
             ]);
         }
 
+        // ✅ 通常の勤怠詳細（未申請・未編集）
         $breaks = $attendance->breaks->take(2);
-
         while ($breaks->count() < 2) {
             $breaks->push((object)['break_start' => null, 'break_end' => null]);
         }
 
-        $format = fn($t) => $t ? Carbon::parse($t)->format('H:i') : null;
+        $format = fn($t) => $t ? \Carbon\Carbon::parse($t)->format('H:i') : null;
 
         $attendance->breaks_display = $breaks->map(fn($b) => [
             'start' => $format($b->break_start),
@@ -241,13 +246,15 @@ class UserAttendanceController extends Controller
         return view('attendance.show', [
             'attendance' => $attendance,
             'attendance_id' => $attendance->id,
-            'dateYear' => Carbon::parse($attendance->date)->format('Y年'),
-            'dateDay' => Carbon::parse($attendance->date)->format('n月j日'),
+            'dateYear' => \Carbon\Carbon::parse($attendance->date)->format('Y年'),
+            'dateDay' => \Carbon\Carbon::parse($attendance->date)->format('n月j日'),
             'correctionRequest' => null,
             'isEditable' => true,
             'customBreaks' => $attendance->breaks_display,
         ]);
     }
+
+
 
     public function showByDate($date)
     {
@@ -301,6 +308,11 @@ class UserAttendanceController extends Controller
             return redirect()->route('attendance.index')->with('error', '勤怠データが見つかりません');
         }
 
+        // ✅ 管理者が編集していれば「編集後の詳細画面」へリダイレクト
+        if ($attendance->edited_by_admin) {
+            return redirect()->route('attendance.edited.show', ['id' => $attendance->id]);
+        }
+
         $correctionRequest = CorrectionRequest::where('attendance_id', $id)
             ->where('status', 'approved')
             ->latest()
@@ -335,5 +347,38 @@ class UserAttendanceController extends Controller
             'customBreaks' => $customBreaks,
             'isEditable' => true,
         ]);
+    }
+
+
+    public function editedShow($id)
+    {
+        $attendance = Attendance::with('user', 'breaks')->findOrFail($id);
+
+        $breaks = $attendance->breaks->values();
+
+        $customBreaks = [
+            [
+                'start' => optional($breaks->get(0))->break_start
+                    ? \Carbon\Carbon::parse($breaks->get(0)->break_start)->format('H:i')
+                    : '',
+                'end' => optional($breaks->get(0))->break_end
+                    ? \Carbon\Carbon::parse($breaks->get(0)->break_end)->format('H:i')
+                    : '',
+            ],
+            [
+                'start' => optional($breaks->get(1))->break_start
+                    ? \Carbon\Carbon::parse($breaks->get(1)->break_start)->format('H:i')
+                    : '',
+                'end' => optional($breaks->get(1))->break_end
+                    ? \Carbon\Carbon::parse($breaks->get(1)->break_end)->format('H:i')
+                    : '',
+            ],
+        ];
+
+        $date = \Carbon\Carbon::parse($attendance->date);
+        $dateYear = $date->format('Y年m月');
+        $dateDay = $date->format('d日');
+
+        return view('attendance.edited', compact('attendance', 'customBreaks', 'dateYear', 'dateDay'));
     }
 }

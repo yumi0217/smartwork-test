@@ -71,3 +71,24 @@
     text-decoration: underline;
     color: #0056b3;
 }
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .staff-container {
+        max-width: 900px;
+        padding: 50px;
+    }
+
+    .title-text {
+        font-size: 28px;
+    }
+
+    .staff-table th,
+    .staff-table td {
+        font-size: 15px;
+        padding: 18px;
+    }
+
+    .staff-table a {
+        font-size: 14px;
+    }
+}

@@ -142,3 +142,51 @@
     font-weight: bold;
     font-size: 14px;
 }
+
+.error-message {
+    color: #f55;
+}
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-detail-container {
+        max-width: 900px;
+        padding: 0 30px;
+    }
+
+    .page-title {
+        max-width: 900px;
+    }
+
+    .title-text {
+        font-size: 34px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+        padding: 20px;
+        font-size: 15px;
+    }
+
+    .time-cell input[type="time"] {
+        width: 120px;
+        font-size: 15px;
+    }
+
+    .textarea-cell textarea {
+        width: 70%;
+        font-size: 15px;
+    }
+
+    .update-button {
+        font-size: 16px;
+        padding: 12px 32px;
+    }
+
+    .date-column {
+        font-size: 15px;
+    }
+
+    .center-cell {
+        font-size: 15px;
+    }
+}

@@ -46,24 +46,31 @@ class AdminUserAttendanceController extends Controller
                     $record->end_time = $approved->requested_end_time;
                     $record->note = $approved->requested_note;
 
-                    $record->breaks_display = collect([
+                    $record->customBreaks = [
                         [
-                            'start' => $format($approved->requested_break1_start),
-                            'end'   => $format($approved->requested_break1_end),
+                            'start' => optional($approved->requested_break1_start)->format('H:i'),
+                            'end'   => optional($approved->requested_break1_end)->format('H:i'),
                         ],
                         [
-                            'start' => $format($approved->requested_break2_start),
-                            'end'   => $format($approved->requested_break2_end),
+                            'start' => optional($approved->requested_break2_start)->format('H:i'),
+                            'end'   => optional($approved->requested_break2_end)->format('H:i'),
                         ],
-                    ]);
+                    ];
                 } else {
-                    $record->breaks_display = $record->breaks->take(2)->map(function ($b) use ($format) {
+                    $breaks = $record->breaks->take(2);
+
+                    while ($breaks->count() < 2) {
+                        $breaks->push((object)['break_start' => null, 'break_end' => null]);
+                    }
+
+                    $record->customBreaks = $breaks->map(function ($b) {
                         return [
-                            'start' => $format($b->break_start),
-                            'end'   => $format($b->break_end),
+                            'start' => optional($b->break_start)->format('H:i'),
+                            'end'   => optional($b->break_end)->format('H:i'),
                         ];
                     });
                 }
+
 
                 $attendances[$date] = $record;
             } else {
@@ -99,6 +106,21 @@ class AdminUserAttendanceController extends Controller
 
         $attendance = Attendance::findOrFail($id);
         $user = $attendance->user;
+
+        // customBreaksを必ず2つ作っておく
+        $breaks = $attendance->breaks->take(2);
+
+        while ($breaks->count() < 2) {
+            $breaks->push((object)['break_start' => null, 'break_end' => null]);
+        }
+
+        $attendance->customBreaks = $breaks->map(function ($b) {
+            return [
+                'start' => optional($b->break_start)->format('H:i'),
+                'end'   => optional($b->break_end)->format('H:i'),
+            ];
+        });
+
 
         return view('admin.attendances.show', compact('attendance', 'user'));
     }

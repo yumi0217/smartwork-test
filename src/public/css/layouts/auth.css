@@ -10,3 +10,17 @@
 .auth-header .logo {
     height: 60px;
 }
+
+/* ★ PC幅（1400px〜1540px）のときも中央寄せを保つ */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .auth-header {
+        justify-content: center;
+        /* ロゴを中央配置 */
+    }
+
+    .auth-header .logo {
+        max-width: 200px;
+        /* ロゴが大きくなりすぎないように制限 */
+        width: 100%;
+    }
+}

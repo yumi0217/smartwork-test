@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Attendance;
 use App\Models\CorrectionRequest;
 use App\Http\Requests\CorrectionRequestRequest;
 use Carbon\Carbon;
